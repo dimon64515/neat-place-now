@@ -14,16 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      host_inventory: {
+        Row: {
+          created_at: string
+          host_id: string
+          id: string
+          item_name: string
+          min_required: number
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          host_id: string
+          id?: string
+          item_name: string
+          min_required?: number
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          host_id?: string
+          id?: string
+          item_name?: string
+          min_required?: number
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string | null
+          after_photos: string[]
+          bathrooms: number
+          before_photos: string[]
+          checklist_completed: boolean
+          cleaner_id: string | null
+          client_id: string
+          comment: string | null
+          commission: number
+          created_at: string
+          extras: Json
+          id: string
+          is_subscription: boolean
+          price: number
+          rooms: number
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          type: Database["public"]["Enums"]["order_type"]
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          after_photos?: string[]
+          bathrooms?: number
+          before_photos?: string[]
+          checklist_completed?: boolean
+          cleaner_id?: string | null
+          client_id: string
+          comment?: string | null
+          commission?: number
+          created_at?: string
+          extras?: Json
+          id?: string
+          is_subscription?: boolean
+          price?: number
+          rooms?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          type?: Database["public"]["Enums"]["order_type"]
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          after_photos?: string[]
+          bathrooms?: number
+          before_photos?: string[]
+          checklist_completed?: boolean
+          cleaner_id?: string | null
+          client_id?: string
+          comment?: string | null
+          commission?: number
+          created_at?: string
+          extras?: Json
+          id?: string
+          is_subscription?: boolean
+          price?: number
+          rooms?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          type?: Database["public"]["Enums"]["order_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          balance: number
+          created_at: string
+          id: string
+          internal_karma: number
+          name: string | null
+          phone: string | null
+          public_rating: number
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          balance?: number
+          created_at?: string
+          id: string
+          internal_karma?: number
+          name?: string | null
+          phone?: string | null
+          public_rating?: number
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          balance?: number
+          created_at?: string
+          id?: string
+          internal_karma?: number
+          name?: string | null
+          phone?: string | null
+          public_rating?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "client" | "host" | "cleaner" | "admin"
+      order_status:
+        | "new"
+        | "assigned"
+        | "in_progress"
+        | "awaiting_approval"
+        | "disputed"
+        | "completed"
+      order_type: "b2c_regular" | "b2b_host"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +316,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["client", "host", "cleaner", "admin"],
+      order_status: [
+        "new",
+        "assigned",
+        "in_progress",
+        "awaiting_approval",
+        "disputed",
+        "completed",
+      ],
+      order_type: ["b2c_regular", "b2b_host"],
+    },
   },
 } as const
