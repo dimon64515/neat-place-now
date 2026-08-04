@@ -80,6 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Cleanly" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { title: "Cleanly — уборка квартир по фиксированной цене" },
+      { property: "og:title", content: "Cleanly — уборка квартир по фиксированной цене" },
+      { name: "twitter:title", content: "Cleanly — уборка квартир по фиксированной цене" },
+      { name: "description", content: "Маркетплейс клининга: прозрачная цена за 10 секунд, фото-отчёт до и после, оплата после приёмки. Для жильцов, хостов посуточной аренды и клинеров." },
+      { property: "og:description", content: "Маркетплейс клининга: прозрачная цена за 10 секунд, фото-отчёт до и после, оплата после приёмки. Для жильцов, хостов посуточной аренды и клинеров." },
+      { name: "twitter:description", content: "Маркетплейс клининга: прозрачная цена за 10 секунд, фото-отчёт до и после, оплата после приёмки. Для жильцов, хостов посуточной аренды и клинеров." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eb1c20d1-bc46-4960-8e1f-5b70a17647dc/id-preview-6a6b8f50--be5f4cbe-1847-443d-a360-ef64591b5090.lovable.app-1785850347519.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eb1c20d1-bc46-4960-8e1f-5b70a17647dc/id-preview-6a6b8f50--be5f4cbe-1847-443d-a360-ef64591b5090.lovable.app-1785850347519.png" },
     ],
     links: [
       {
