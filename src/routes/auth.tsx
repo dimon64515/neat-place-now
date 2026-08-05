@@ -69,17 +69,7 @@ function AuthPage() {
     }
   }
 
-  async function onGoogle() {
-    try {
-      const { lovable } = await import("@/integrations/lovable");
-      await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Google-вход недоступен");
-    }
-  }
-
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
+ className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
       <Toaster />
       <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
         <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
