@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ShieldCheck,
   Camera,
@@ -86,14 +86,15 @@ function Index() {
             </span>
             <span className="truncate font-display text-lg font-extrabold">Cleanly</span>
           </div>
-          <Button
-            asChild
-            size="sm"
-            variant="secondary"
-            className="shrink-0 rounded-full"
-          >
-            <a href="#calc">Рассчитать</a>
-          </Button>
+          <div className="flex shrink-0 items-center gap-2">
+            <Button asChild size="sm" variant="ghost" className="rounded-full">
+              <Link to="/client/orders">Мои заказы</Link>
+            </Button>
+            <Button asChild size="sm" variant="secondary" className="rounded-full">
+              <a href="#calc">Рассчитать</a>
+            </Button>
+          </div>
+
         </div>
       </header>
 
