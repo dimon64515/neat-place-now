@@ -69,7 +69,8 @@ function AuthPage() {
     }
   }
 
- className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
       <Toaster />
       <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
         <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
@@ -110,10 +111,6 @@ function AuthPage() {
             {mode === "signin" ? "Войти" : "Создать аккаунт"}
           </Button>
         </form>
-
-        <Button variant="outline" className="mt-3 w-full" onClick={onGoogle}>
-          Продолжить с Google
-        </Button>
 
         <button
           type="button"
