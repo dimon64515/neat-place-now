@@ -11,16 +11,16 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Вход в Cleanly — личный кабинет клиента" },
+      { title: "Вход в Point-Clean — личный кабинет клиента" },
       {
         name: "description",
         content:
-          "Войдите или зарегистрируйтесь в Cleanly, чтобы отслеживать заказы на уборку, принимать работу по фото и открывать споры.",
+          "Войдите или зарегистрируйтесь в Point-Clean, чтобы отслеживать заказы на уборку, принимать работу по фото и открывать споры.",
       },
-      { property: "og:title", content: "Вход в Cleanly — личный кабинет клиента" },
+      { property: "og:title", content: "Вход в Point-Clean — личный кабинет клиента" },
       {
         property: "og:description",
-        content: "Войдите в Cleanly, чтобы управлять заказами на уборку.",
+        content: "Войдите в Point-Clean, чтобы управлять заказами на уборку.",
       },
     ],
   }),
@@ -37,7 +37,7 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/client/orders" });
+      if (data.session) navigate({ to: "/client" });
     });
   }, [navigate]);
 
@@ -50,7 +50,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/client/orders`,
+            emailRedirectTo: `${window.location.origin}/client`,
             data: { name, role: "client" },
           },
         });
@@ -61,7 +61,7 @@ function AuthPage() {
         if (error) throw error;
       }
       const { data } = await supabase.auth.getSession();
-      if (data.session) navigate({ to: "/client/orders" });
+      if (data.session) navigate({ to: "/client" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Не удалось выполнить вход");
     } finally {
@@ -76,7 +76,7 @@ function AuthPage() {
         <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
           {mode === "signin" ? "Вход" : "Регистрация"}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">Личный кабинет клиента Cleanly.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Личный кабинет клиента Point-Clean.</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           {mode === "signup" && (

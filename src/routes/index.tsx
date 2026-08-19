@@ -18,13 +18,13 @@ import heroImage from "@/assets/hero-clean.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Cleanly — уборка квартир по фиксированной цене" },
+      { title: "Point-Clean — уборка квартир по фиксированной цене" },
       {
         name: "description",
         content:
           "Маркетплейс клининга: прозрачная цена за 10 секунд, фото-отчёт до и после, оплата после приёмки. Для жильцов, хостов посуточной аренды и клинеров.",
       },
-      { property: "og:title", content: "Cleanly — уборка квартир по фиксированной цене" },
+      { property: "og:title", content: "Point-Clean — уборка квартир по фиксированной цене" },
       {
         property: "og:description",
         content: "Маркетплейс клининга: прозрачная цена за 10 секунд, фото-отчёт до и после, оплата после приёмки. Для жильцов, хостов посуточной аренды и клинеров.",
@@ -84,11 +84,11 @@ function Index() {
             <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary">
               <Sparkles className="size-4 text-primary" />
             </span>
-            <span className="truncate font-display text-lg font-extrabold">Cleanly</span>
+            <span className="truncate font-display text-lg font-extrabold">Point-Clean</span>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Button asChild size="sm" variant="ghost" className="rounded-full">
-              <Link to="/client/orders">Мои заказы</Link>
+              <Link to="/client">Кабинет</Link>
             </Button>
             <Button asChild size="sm" variant="secondary" className="rounded-full">
               <a href="#calc">Рассчитать</a>
@@ -205,7 +205,7 @@ function Index() {
 
       <footer className="border-t">
         <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Cleanly
+          © {new Date().getFullYear()} Point-Clean
         </div>
       </footer>
     </div>

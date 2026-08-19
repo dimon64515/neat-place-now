@@ -44,13 +44,13 @@ const FILTERS: { value: OrderStatus | "all"; label: string }[] = [
 export const Route = createFileRoute("/_authenticated/client/orders")({
   head: () => ({
     meta: [
-      { title: "Мои заказы на уборку — Cleanly" },
+      { title: "Мои заказы на уборку — Point-Clean" },
       {
         name: "description",
         content:
-          "Кабинет клиента Cleanly: список заказов на уборку с фильтром по статусам, приёмка работы и открытие спора по фото-отчёту.",
+          "Кабинет клиента Point-Clean: список заказов на уборку с фильтром по статусам, приёмка работы и открытие спора по фото-отчёту.",
       },
-      { property: "og:title", content: "Мои заказы на уборку — Cleanly" },
+      { property: "og:title", content: "Мои заказы на уборку — Point-Clean" },
       {
         property: "og:description",
         content: "Фильтруйте заказы по статусу, подтверждайте приёмку или открывайте спор.",
