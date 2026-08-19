@@ -37,7 +37,7 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/client/orders" });
+      if (data.session) navigate({ to: "/client" });
     });
   }, [navigate]);
 
@@ -50,7 +50,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/client/orders`,
+            emailRedirectTo: `${window.location.origin}/client`,
             data: { name, role: "client" },
           },
         });
@@ -61,7 +61,7 @@ function AuthPage() {
         if (error) throw error;
       }
       const { data } = await supabase.auth.getSession();
-      if (data.session) navigate({ to: "/client/orders" });
+      if (data.session) navigate({ to: "/client" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Не удалось выполнить вход");
     } finally {
