@@ -88,7 +88,7 @@ function Index() {
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Button asChild size="sm" variant="ghost" className="rounded-full">
-              <Link to="/client/orders">Мои заказы</Link>
+              <Link to="/client">Кабинет</Link>
             </Button>
             <Button asChild size="sm" variant="secondary" className="rounded-full">
               <a href="#calc">Рассчитать</a>
