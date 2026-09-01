@@ -101,7 +101,12 @@ function ClientDashboard() {
               <Link to="/client/orders">Мои заказы</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/">Заказать уборку</Link>
+              <Link
+                to="/client/new-order"
+                search={{ rooms: 2, bathrooms: 1, extras: "", subscription: 0 }}
+              >
+                Заказать уборку
+              </Link>
             </Button>
           </div>
         </div>

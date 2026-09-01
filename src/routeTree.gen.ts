@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedClientIndexRouteImport } from './routes/_authenticated/client/index'
+import { Route as AuthenticatedClientNewOrderRouteImport } from './routes/_authenticated/client/new-order'
 import { Route as AuthenticatedClientOrdersRouteImport } from './routes/_authenticated/client/orders'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,12 @@ const AuthenticatedClientIndexRoute =
     path: '/client/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedClientNewOrderRoute =
+  AuthenticatedClientNewOrderRouteImport.update({
+    id: '/client/new-order',
+    path: '/client/new-order',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedClientOrdersRoute =
   AuthenticatedClientOrdersRouteImport.update({
     id: '/client/orders',
@@ -51,6 +58,7 @@ const AuthenticatedClientOrdersRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/client/new-order': typeof AuthenticatedClientNewOrderRoute
   '/client/orders': typeof AuthenticatedClientOrdersRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/client/': typeof AuthenticatedClientIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/client/new-order': typeof AuthenticatedClientNewOrderRoute
   '/client/orders': typeof AuthenticatedClientOrdersRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/client': typeof AuthenticatedClientIndexRoute
@@ -67,20 +76,34 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/client/new-order': typeof AuthenticatedClientNewOrderRoute
   '/_authenticated/client/orders': typeof AuthenticatedClientOrdersRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/client/': typeof AuthenticatedClientIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/client/orders' | '/admin/' | '/client/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/client/new-order'
+    | '/client/orders'
+    | '/admin/'
+    | '/client/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/client/orders' | '/admin' | '/client'
+  to:
+    | '/'
+    | '/auth'
+    | '/client/new-order'
+    | '/client/orders'
+    | '/admin'
+    | '/client'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/client/new-order'
     | '/_authenticated/client/orders'
     | '/_authenticated/admin/'
     | '/_authenticated/client/'
@@ -129,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/client/new-order': {
+      id: '/_authenticated/client/new-order'
+      path: '/client/new-order'
+      fullPath: '/client/new-order'
+      preLoaderRoute: typeof AuthenticatedClientNewOrderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/client/orders': {
       id: '/_authenticated/client/orders'
       path: '/client/orders'
@@ -140,12 +170,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedClientNewOrderRoute: typeof AuthenticatedClientNewOrderRoute
   AuthenticatedClientOrdersRoute: typeof AuthenticatedClientOrdersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedClientIndexRoute: typeof AuthenticatedClientIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedClientNewOrderRoute: AuthenticatedClientNewOrderRoute,
   AuthenticatedClientOrdersRoute: AuthenticatedClientOrdersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedClientIndexRoute: AuthenticatedClientIndexRoute,
