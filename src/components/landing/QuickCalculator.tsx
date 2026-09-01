@@ -1,22 +1,14 @@
 import { useMemo, useState } from "react";
-import { Minus, Plus, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
+import { Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { EXTRAS, calcPrice } from "@/lib/pricing";
 
-const BASE_PRICE = 2200;
-const ROOM_PRICE = 900;
-const BATHROOM_PRICE = 700;
-const SUBSCRIPTION_DISCOUNT = 0.15;
-
-export const EXTRAS = [
-  { id: "fridge", label: "Внутри холодильника", price: 600 },
-  { id: "oven", label: "Внутри духовки", price: 700 },
-  { id: "windows", label: "Мытьё окон", price: 900 },
-] as const;
+export { EXTRAS };
 
 function Stepper({
   label,
