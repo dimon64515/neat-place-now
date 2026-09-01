@@ -56,31 +56,30 @@ function Stepper({
 }
 
 export function QuickCalculator() {
+  const navigate = useNavigate();
   const [rooms, setRooms] = useState(2);
   const [bathrooms, setBathrooms] = useState(1);
   const [extras, setExtras] = useState<string[]>([]);
   const [subscription, setSubscription] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const submitting = false;
 
-  const { total, saved } = useMemo(() => {
-    const extrasSum = EXTRAS.filter((e) => extras.includes(e.id)).reduce(
-      (acc, e) => acc + e.price,
-      0,
-    );
-    const gross = BASE_PRICE + rooms * ROOM_PRICE + bathrooms * BATHROOM_PRICE + extrasSum;
-    const discount = subscription ? Math.round(gross * SUBSCRIPTION_DISCOUNT) : 0;
-    return { total: gross - discount, saved: discount };
-  }, [rooms, bathrooms, extras, subscription]);
+  const { total, saved } = useMemo(
+    () => calcPrice({ rooms, bathrooms, extras, subscription }),
+    [rooms, bathrooms, extras, subscription],
+  );
 
   const toggleExtra = (id: string) =>
     setExtras((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
-  const submit = async () => {
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 700));
-    setSubmitting(false);
-    toast.success("Расчёт сохранён", {
-      description: `Итог ${total.toLocaleString("ru-RU")} ₽. Оформление заказа появится на следующем шаге.`,
+  const submit = () => {
+    navigate({
+      to: "/client/new-order",
+      search: {
+        rooms,
+        bathrooms,
+        extras: extras.join(","),
+        subscription: subscription ? 1 : 0,
+      },
     });
   };
 
