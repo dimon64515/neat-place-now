@@ -150,8 +150,7 @@ export function QuickCalculator() {
       </div>
 
       <Button size="lg" className="mt-4 w-full rounded-full" onClick={submit} disabled={submitting}>
-        {submitting && <Loader2 className="size-4 animate-spin" />}
-        {submitting ? "Считаем..." : "Оформить заказ"}
+        Оформить заказ
       </Button>
       <p className="mt-3 text-center text-xs text-muted-foreground">
         Оплата после приёмки фото-отчёта
