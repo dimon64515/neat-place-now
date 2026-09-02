@@ -300,6 +300,49 @@ function OrderCard({
 
       {isMine && (
         <div className="mt-4 space-y-4 border-t border-border pt-4">
+          {order.comment && !isDisputed && (
+            <p className="rounded-xl bg-muted/60 p-3 text-sm text-muted-foreground">
+              Комментарий клиента: {order.comment}
+            </p>
+          )}
+
+          {isDisputed && (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-3">
+              <p className="flex items-center gap-2 text-sm font-medium text-destructive">
+                <AlertTriangle className="size-4" /> Клиент открыл спор
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {order.dispute_reason || order.comment || "Причина не указана"}
+              </p>
+              {order.disputed_at && (
+                <p className="mt-1 text-xs text-muted-foreground">{formatDate(order.disputed_at)}</p>
+              )}
+              <Textarea
+                className="mt-3 bg-background"
+                rows={3}
+                value={reply}
+                placeholder="Ваш ответ клиенту: что исправите или почему не согласны"
+                onChange={(e) => setReply(e.target.value)}
+              />
+              <Button
+                variant="outline"
+                className="mt-2 w-full"
+                disabled={busy || reply.trim().length < 3}
+                onClick={() =>
+                  onPatch({ dispute_reply: reply.trim() }, "Ответ отправлен клиенту")
+                }
+              >
+                <MessageSquare className="size-4" /> Отправить ответ
+              </Button>
+            </div>
+          )}
+
+          {!isDisputed && order.dispute_reply && (
+            <p className="rounded-xl bg-muted/60 p-3 text-sm text-muted-foreground">
+              Ваш ответ по спору: {order.dispute_reply}
+            </p>
+          )}
+
           <PhotoUploader
             orderId={order.id}
             kind="before"
@@ -342,11 +385,32 @@ function OrderCard({
             </ul>
           </div>
 
-          {working && (
-            <Button className="w-full" disabled={busy} onClick={finish}>
-              <CheckCircle2 className="size-4" /> Сдать работу
+          {order.status === "assigned" && (
+            <Button className="w-full" disabled={busy} onClick={start}>
+              <PlayCircle className="size-4" /> Начать уборку
             </Button>
           )}
+
+          {(order.status === "in_progress" || isDisputed) && (
+            <Button className="w-full" disabled={busy} onClick={finish}>
+              <CheckCircle2 className="size-4" />
+              {isDisputed ? "Отправить исправления" : "Сдать работу"}
+            </Button>
+          )}
+
+          {order.status === "awaiting_approval" && (
+            <p className="text-center text-sm text-muted-foreground">
+              Ждём приёмки клиентом
+            </p>
+          )}
+
+          {order.status === "completed" && (
+            <p className="text-center text-sm text-muted-foreground">
+              Заказ принят клиентом
+            </p>
+          )}
+        </div>
+      )}
         </div>
       )}
     </article>
