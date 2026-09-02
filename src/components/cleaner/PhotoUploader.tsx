@@ -14,7 +14,7 @@ type Props = {
   onUploaded: (paths: string[]) => Promise<void> | void;
 };
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] as string;
 const BUCKET = "order-photos";
 
 function uploadWithProgress(
@@ -75,7 +75,7 @@ export function PhotoUploader({ orderId, kind, paths, disabled, onUploaded }: Pr
     setProgress(0);
     try {
       for (let i = 0; i < list.length; i++) {
-        const file = list[i];
+        const file = list[i]!;
         const ext = file.name.split(".").pop() ?? "jpg";
         const path = `${orderId}/${kind}/${crypto.randomUUID()}.${ext}`;
         await uploadWithProgress(path, file, token, (p) => {

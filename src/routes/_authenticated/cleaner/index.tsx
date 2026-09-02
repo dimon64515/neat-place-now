@@ -116,7 +116,7 @@ function CleanerDashboard() {
     }: {
       id: string;
       patch: Database["public"]["Tables"]["orders"]["Update"];
-      message?: string;
+      message?: string | undefined;
     }) => {
       const { error } = await supabase.from("orders").update(patch).eq("id", id);
       if (error) throw error;
