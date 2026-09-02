@@ -50,6 +50,7 @@ export type Database = {
           after_photos: string[]
           bathrooms: number
           before_photos: string[]
+          checklist: Json
           checklist_completed: boolean
           cleaner_id: string | null
           client_id: string
@@ -71,6 +72,7 @@ export type Database = {
           after_photos?: string[]
           bathrooms?: number
           before_photos?: string[]
+          checklist?: Json
           checklist_completed?: boolean
           cleaner_id?: string | null
           client_id: string
@@ -92,6 +94,7 @@ export type Database = {
           after_photos?: string[]
           bathrooms?: number
           before_photos?: string[]
+          checklist?: Json
           checklist_completed?: boolean
           cleaner_id?: string | null
           client_id?: string
