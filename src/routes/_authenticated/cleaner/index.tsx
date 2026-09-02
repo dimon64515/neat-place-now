@@ -222,15 +222,21 @@ function OrderCard({
   const checklist = toChecklist(order.checklist);
   const doneCount = checklist.filter((c) => c.done).length;
   const isMine = order.cleaner_id === userId;
-  const working = isMine && (order.status === "assigned" || order.status === "in_progress");
+  const isDisputed = order.status === "disputed";
+  const working =
+    isMine && (order.status === "assigned" || order.status === "in_progress" || isDisputed);
+  const [reply, setReply] = useState(order.dispute_reply ?? "");
 
   function toggleItem(id: string, done: boolean) {
     const next = checklist.map((c) => (c.id === id ? { ...c, done } : c));
     onPatch({
       checklist: next,
       checklist_completed: next.every((c) => c.done),
-      status: order.status === "assigned" ? "in_progress" : order.status,
     });
+  }
+
+  function start() {
+    onPatch({ status: "in_progress" }, "Уборка начата");
   }
 
   function finish() {
@@ -242,7 +248,16 @@ function OrderCard({
       toast.error("Загрузите фото после уборки");
       return;
     }
-    onPatch({ status: "awaiting_approval" }, "Заказ отправлен на приёмку");
+    onPatch(
+      isDisputed
+        ? {
+            status: "awaiting_approval",
+            dispute_reply: reply.trim() || order.dispute_reply,
+            dispute_resolved_at: new Date().toISOString(),
+          }
+        : { status: "awaiting_approval" },
+      isDisputed ? "Исправления отправлены клиенту" : "Заказ отправлен на приёмку",
+    );
   }
 
   return (
