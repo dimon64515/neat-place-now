@@ -57,6 +57,10 @@ export type Database = {
           comment: string | null
           commission: number
           created_at: string
+          dispute_reason: string | null
+          dispute_reply: string | null
+          dispute_resolved_at: string | null
+          disputed_at: string | null
           extras: Json
           id: string
           is_subscription: boolean
@@ -79,6 +83,10 @@ export type Database = {
           comment?: string | null
           commission?: number
           created_at?: string
+          dispute_reason?: string | null
+          dispute_reply?: string | null
+          dispute_resolved_at?: string | null
+          disputed_at?: string | null
           extras?: Json
           id?: string
           is_subscription?: boolean
@@ -101,6 +109,10 @@ export type Database = {
           comment?: string | null
           commission?: number
           created_at?: string
+          dispute_reason?: string | null
+          dispute_reply?: string | null
+          dispute_resolved_at?: string | null
+          disputed_at?: string | null
           extras?: Json
           id?: string
           is_subscription?: boolean
