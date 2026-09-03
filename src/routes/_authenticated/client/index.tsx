@@ -34,14 +34,16 @@ function ClientDashboard() {
     queryFn: async () => {
       const { data: userData } = await supabase.auth.getUser();
       const user = userData.user;
-      const [profileRes, ordersRes] = await Promise.all([
+      const [profileRes, ordersRes, rolesRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user!.id).maybeSingle(),
         supabase.from("orders").select("id,status,price").eq("client_id", user!.id),
+        supabase.from("user_roles").select("role").eq("user_id", user!.id),
       ]);
       return {
         email: user?.email ?? "",
         profile: profileRes.data,
         orders: ordersRes.data ?? [],
+        roles: (rolesRes.data ?? []).map((r) => r.role),
       };
     },
   });
