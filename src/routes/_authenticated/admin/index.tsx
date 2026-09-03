@@ -110,6 +110,7 @@ function AdminPage() {
 
       return {
         isAdmin: true as const,
+        userId: userData.user!.id,
         profiles: (profilesRes.data ?? []) as Profile[],
         roles: (rolesRes.data ?? []) as { user_id: string; role: AppRole }[],
         orders: (ordersRes.data ?? []) as Order[],
@@ -165,6 +166,17 @@ function AdminPage() {
       has: boolean;
     }) => {
       if (has) {
+        if (role === "admin") {
+          if (userId === data?.userId) {
+            throw new Error("Нельзя снять роль admin с самого себя");
+          }
+          const adminsLeft =
+            (data?.roles ?? []).filter((r) => r.role === "admin" && r.user_id !== userId)
+              .length;
+          if (adminsLeft === 0) {
+            throw new Error("Нельзя снять роль admin с последнего администратора");
+          }
+        }
         const { error } = await supabase
           .from("user_roles")
           .delete()
@@ -432,9 +444,18 @@ function AdminPage() {
                                     key={r}
                                     type="button"
                                     disabled={toggleRole.isPending}
-                                    onClick={() =>
-                                      toggleRole.mutate({ userId: p.id, role: r, has })
-                                    }
+                                    onClick={() => {
+                                      if (
+                                        has &&
+                                        r === "admin" &&
+                                        !window.confirm(
+                                          "Снять роль admin? Пользователь потеряет доступ к админ-панели.",
+                                        )
+                                      ) {
+                                        return;
+                                      }
+                                      toggleRole.mutate({ userId: p.id, role: r, has });
+                                    }}
                                     title={has ? "Снять роль" : "Назначить роль"}
                                   >
                                     <Badge
