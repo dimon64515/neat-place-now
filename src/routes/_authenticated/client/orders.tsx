@@ -100,16 +100,24 @@ function ClientOrdersPage() {
     mutationFn: async ({
       id,
       status,
-      comment,
+      disputeReason,
     }: {
       id: string;
       status: OrderStatus;
-      comment?: string;
+      disputeReason?: string;
     }) => {
-      const { error } = await supabase
-        .from("orders")
-        .update(comment !== undefined ? { status, comment } : { status })
-        .eq("id", id);
+      const patch: Database["public"]["Tables"]["orders"]["Update"] =
+        status === "disputed"
+          ? {
+              status,
+              dispute_reason: disputeReason ?? null,
+              disputed_at: new Date().toISOString(),
+              dispute_resolved_at: null,
+            }
+          : status === "completed"
+            ? { status, dispute_resolved_at: new Date().toISOString() }
+            : { status };
+      const { error } = await supabase.from("orders").update(patch).eq("id", id);
       if (error) throw error;
     },
     onSuccess: (_data, vars) => {
@@ -238,10 +246,33 @@ function ClientOrdersPage() {
                     disabled={busy}
                     onClick={() => {
                       setDisputeOrder(order);
-                      setDisputeText(order.comment ?? "");
+                      setDisputeText(order.dispute_reason ?? "");
                     }}
                   >
                     <AlertTriangle className="size-4" /> Открыть спор
+                  </Button>
+                </div>
+              )}
+
+              {order.status === "disputed" && (
+                <div className="mt-3 rounded-xl border border-destructive/30 bg-destructive/5 p-3">
+                  <p className="text-sm font-medium text-destructive">Спор открыт</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {order.dispute_reason || "Причина не указана"}
+                  </p>
+                  {order.dispute_reply ? (
+                    <p className="mt-2 rounded-lg bg-background p-2 text-sm text-muted-foreground">
+                      Ответ клинера: {order.dispute_reply}
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-xs text-muted-foreground">Ждём ответ клинера…</p>
+                  )}
+                  <Button
+                    className="mt-3 w-full"
+                    disabled={busy}
+                    onClick={() => updateStatus.mutate({ id: order.id, status: "completed" })}
+                  >
+                    <CheckCircle2 className="size-4" /> Принять работу и закрыть спор
                   </Button>
                 </div>
               )}
@@ -276,7 +307,7 @@ function ClientOrdersPage() {
                 updateStatus.mutate({
                   id: disputeOrder.id,
                   status: "disputed",
-                  comment: disputeText.trim(),
+                  disputeReason: disputeText.trim(),
                 })
               }
             >

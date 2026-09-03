@@ -34,14 +34,16 @@ function ClientDashboard() {
     queryFn: async () => {
       const { data: userData } = await supabase.auth.getUser();
       const user = userData.user;
-      const [profileRes, ordersRes] = await Promise.all([
+      const [profileRes, ordersRes, rolesRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user!.id).maybeSingle(),
         supabase.from("orders").select("id,status,price").eq("client_id", user!.id),
+        supabase.from("user_roles").select("role").eq("user_id", user!.id),
       ]);
       return {
         email: user?.email ?? "",
         profile: profileRes.data,
         orders: ordersRes.data ?? [],
+        roles: (rolesRes.data ?? []).map((r) => r.role),
       };
     },
   });
@@ -80,6 +82,22 @@ function ClientDashboard() {
           Привет, {data?.profile?.name || "клиент"}!
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{data?.email}</p>
+
+        {(data?.roles ?? []).some((r) => r === "admin" || r === "cleaner") && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {(data?.roles ?? []).includes("admin") && (
+              <Button variant="secondary" size="sm" asChild>
+                <Link to="/admin">Панель администратора</Link>
+              </Button>
+            )}
+            {(data?.roles ?? []).includes("cleaner") && (
+              <Button variant="secondary" size="sm" asChild>
+                <Link to="/cleaner">Кабинет клинера</Link>
+              </Button>
+            )}
+          </div>
+        )}
+
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           <StatCard icon={ClipboardList} label="Активные заказы" value={String(active)} />
