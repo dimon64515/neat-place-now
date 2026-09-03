@@ -83,6 +83,22 @@ function ClientDashboard() {
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{data?.email}</p>
 
+        {(data?.roles ?? []).some((r) => r === "admin" || r === "cleaner") && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {(data?.roles ?? []).includes("admin") && (
+              <Button variant="secondary" size="sm" asChild>
+                <Link to="/admin">Панель администратора</Link>
+              </Button>
+            )}
+            {(data?.roles ?? []).includes("cleaner") && (
+              <Button variant="secondary" size="sm" asChild>
+                <Link to="/cleaner">Кабинет клинера</Link>
+              </Button>
+            )}
+          </div>
+        )}
+
+
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           <StatCard icon={ClipboardList} label="Активные заказы" value={String(active)} />
           <StatCard icon={Wallet} label="Потрачено" value={`${spent.toLocaleString("ru-RU")} ₽`} />
