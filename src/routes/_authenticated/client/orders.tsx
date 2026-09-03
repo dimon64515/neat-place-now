@@ -307,7 +307,7 @@ function ClientOrdersPage() {
                 updateStatus.mutate({
                   id: disputeOrder.id,
                   status: "disputed",
-                  comment: disputeText.trim(),
+                  disputeReason: disputeText.trim(),
                 })
               }
             >
