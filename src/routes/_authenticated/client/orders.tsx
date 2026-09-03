@@ -246,10 +246,33 @@ function ClientOrdersPage() {
                     disabled={busy}
                     onClick={() => {
                       setDisputeOrder(order);
-                      setDisputeText(order.comment ?? "");
+                      setDisputeText(order.dispute_reason ?? "");
                     }}
                   >
                     <AlertTriangle className="size-4" /> Открыть спор
+                  </Button>
+                </div>
+              )}
+
+              {order.status === "disputed" && (
+                <div className="mt-3 rounded-xl border border-destructive/30 bg-destructive/5 p-3">
+                  <p className="text-sm font-medium text-destructive">Спор открыт</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {order.dispute_reason || "Причина не указана"}
+                  </p>
+                  {order.dispute_reply ? (
+                    <p className="mt-2 rounded-lg bg-background p-2 text-sm text-muted-foreground">
+                      Ответ клинера: {order.dispute_reply}
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-xs text-muted-foreground">Ждём ответ клинера…</p>
+                  )}
+                  <Button
+                    className="mt-3 w-full"
+                    disabled={busy}
+                    onClick={() => updateStatus.mutate({ id: order.id, status: "completed" })}
+                  >
+                    <CheckCircle2 className="size-4" /> Принять работу и закрыть спор
                   </Button>
                 </div>
               )}
