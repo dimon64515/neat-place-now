@@ -100,16 +100,24 @@ function ClientOrdersPage() {
     mutationFn: async ({
       id,
       status,
-      comment,
+      disputeReason,
     }: {
       id: string;
       status: OrderStatus;
-      comment?: string;
+      disputeReason?: string;
     }) => {
-      const { error } = await supabase
-        .from("orders")
-        .update(comment !== undefined ? { status, comment } : { status })
-        .eq("id", id);
+      const patch: Database["public"]["Tables"]["orders"]["Update"] =
+        status === "disputed"
+          ? {
+              status,
+              dispute_reason: disputeReason ?? null,
+              disputed_at: new Date().toISOString(),
+              dispute_resolved_at: null,
+            }
+          : status === "completed"
+            ? { status, dispute_resolved_at: new Date().toISOString() }
+            : { status };
+      const { error } = await supabase.from("orders").update(patch).eq("id", id);
       if (error) throw error;
     },
     onSuccess: (_data, vars) => {
