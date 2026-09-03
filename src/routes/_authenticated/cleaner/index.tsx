@@ -411,8 +411,6 @@ function OrderCard({
           )}
         </div>
       )}
-        </div>
-      )}
     </article>
   );
 }
